@@ -1,18 +1,16 @@
 import bcrypt from "bcrypt";
+
 import { env } from "@/config/env";
-import { jwtUtils } from "@/shared/utils/jwt";
-import { EmailUtils } from "@/shared/utils/email";
-import { config } from "@shared/config/config";
-import { AccountProviders } from "@shared/types/user";
-import { UserRepo } from "@/core/repositories/user/user.repository";
-import { AuthRepo } from "@/core/repositories/auth/auth.repository";
-import {
-  sendOtp as sendOtpService,
-  verifyOtp,
-} from "@/core/services/auth/otp.service";
 import { OtpType } from "@shared/types/otp";
+import { config } from "@shared/config/config";
 import { createError } from "@/core/error/errors";
 import { DecodedUser } from "@/api/middlewares/auth";
+import { AccountProviders } from "@shared/types/user";
+import { EmailUtils } from "@/infrastructure/email/email";
+import { jwtUtils } from "@/infrastructure/email/auth/jwt/jwt";
+import { UserRepo } from "@/core/repositories/user/user.repository";
+import { AuthRepo } from "@/core/repositories/auth/auth.repository";
+import { sendOtp as sendOtpService, verifyOtp } from "@/core/services/auth/otp.service";
 
 const login = async (email: string, password: string) => {
   try {
@@ -37,6 +35,7 @@ const handleAuthCallback = async (user: DecodedUser) => {
   if (!user) throw createError("USER_NOT_FOUND");
   return jwtUtils.generateToken(user.id, user.username);
 };
+
 
 const register = async (username: string, email: string, password: string) => {
   try {

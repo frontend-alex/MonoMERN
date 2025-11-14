@@ -10,6 +10,7 @@
     "module": "commonjs",
     "target": "es2016",
     "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
     "verbatimModuleSyntax": false,
     "erasableSyntaxOnly": false,
     "baseUrl": ".",

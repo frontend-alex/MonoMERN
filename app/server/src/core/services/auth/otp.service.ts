@@ -7,7 +7,7 @@ import {
   invalidateUserOtps, 
 } from "@/core/repositories/auth/otp.repository";
 import { createError } from "@/core/error/errors";
-import { EmailUtils } from "@/shared/utils/email";
+import { EmailUtils } from "@/infrastructure/email/email";
 
 
 export const sendOtp = async (userId: string, email: string, type: OtpType = OtpType.EmailVerification) => {

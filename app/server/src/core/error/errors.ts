@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import { logger } from "@/shared/utils/logger";
+import { logger } from "@/api/application/logging/logger";
 import { ERROR_MESSAGES } from "@/shared/constants/errorMessages";
 
 interface AppErrorParams {

@@ -271,7 +271,6 @@ export const NOTIFICATION_ERRORS = {
   },
 };
 
-// Merge everything into one master object
 export const ERROR_MESSAGES = {
   ...AUTH_ERRORS,
   ...JWT_ERRORS,

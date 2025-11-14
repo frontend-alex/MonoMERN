@@ -12,7 +12,7 @@
     "watch": "concurrently \"tsc --watch\"",
     "start": "node build/index.js",
     "dev": "concurrently \"pnpm run watch\" \"pnpm run copy-templates\" \"nodemon build/index.js\"",
-    "copy-templates": "copyfiles -u 4 src/infrastructure/email/templates/**/* build/infrastructure/email/templates"
+    "copy-templates": "copyfiles -u 4 src/infrastructure/email/auth/templates/**/* build/infrastructure/email/auth/templates"
   },
   "keywords": [],
   "author": "",

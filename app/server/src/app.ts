@@ -11,7 +11,7 @@ import cookieParser from "cookie-parser";
 import { router } from "./api/routes";
 import { env, getAppUrl } from "@/config/env";
 import { createServer } from "http";
-import { logger } from "@/shared/utils/logger";
+import { logger } from "@/api/application/logging/logger";
 import { errorHandler } from "@/core/error/errors";
 import { connectDB, disconnectDB } from "@/config/db";
 import { createServer as createHttpsServer } from "https";
