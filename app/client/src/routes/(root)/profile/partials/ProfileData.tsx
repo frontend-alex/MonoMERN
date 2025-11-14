@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { makeForm } from "@/lib/utils";
+import { API } from "@/config/config";
 
 
 const ProfileData = () => {
@@ -24,7 +25,7 @@ const ProfileData = () => {
 
   const { mutateAsync: update, isPending } = useApiMutation(
     "PUT",
-    "/auth/update",
+    API.USER.UPDATE_ME,
     {
       invalidateQueries: [["auth", "me"]],
       onSuccess: (data) => toast.success(data.message),

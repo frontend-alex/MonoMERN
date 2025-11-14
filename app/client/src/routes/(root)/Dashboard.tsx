@@ -1,11 +1,4 @@
-import { useAuth } from "@/contexts/AuthContext";
-
 const Dashboard = () => {
-
-  const { user } = useAuth();
-
-  console.log(user)
-
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div className="grid auto-rows-min gap-4 md:grid-cols-3">

@@ -9,6 +9,7 @@ import {
   type resetPasswordSchemaType,
 } from "@shared/schemas/auth/auth.schema";
 import { ResetPasswordForm } from "@/components/auth/forms/password/reset-password-02";
+import { API } from "@/config/config";
 
 const ResetPassword = () => {
   const resetPasswordForm = useForm({
@@ -21,7 +22,7 @@ const ResetPassword = () => {
 
   const { mutateAsync: updatePassword, isPending } = useApiMutation(
     "PUT",
-    "/auth/update-password",
+    API.AUTH.PRIVATE.UPDATE_PASSWORD,
     {
       onSuccess: (data) => {
         resetPasswordForm.reset();

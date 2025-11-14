@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import { toast } from "sonner";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
+import { API } from "@/config/config";
+import { ROUTES } from "@/config/routes";
 import AppLogo from "@/components/AppLogo";
-import { OtpForm } from "@/components/auth/forms/otp/otp-form-02";
 import { useApiMutation } from "@/hooks/hook";
-import {
-  otpSchema,
-  type OtpSchemaType,
-} from "@shared/schemas/auth/auth.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { OtpForm } from "@/components/auth/forms/otp/otp-form-02";
+import { otpSchema, type OtpSchemaType } from "@shared/schemas/auth/auth.schema";
 
 const COOLDOWN_DURATION = 60;
 const STORAGE_KEY = "otp_last_sent_at";
@@ -27,7 +27,7 @@ const Otp = () => {
 
   const { mutateAsync: sendOtp, isPending: isOtpPending } = useApiMutation(
     "POST",
-    "/auth/send-otp",
+    API.AUTH.PUBLIC.SEND_OTP,
     {
       onSuccess: (data) => toast.success(data.message),
       onError: (err) => {
@@ -38,9 +38,9 @@ const Otp = () => {
 
   const { mutateAsync: verifyEmail, isPending: isOtpverifying } = useApiMutation(
     "PUT",
-    "/auth/validate-otp",
+    API.AUTH.PUBLIC.VALIDATE_OTP,
     {
-      onSuccess: () => navigate("/login"),
+      onSuccess: () => navigate(ROUTES.PUBLIC.LOGIN),
       onError: (err) => {
         toast.error(err.response?.data?.message || "Invalid OTP");
       },

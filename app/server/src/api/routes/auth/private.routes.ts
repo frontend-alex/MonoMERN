@@ -13,10 +13,10 @@ router.use(jwtMiddleware);
 
 router.get("/me", UserController.getUser);
 router.post("/logout", AuthController.logout);
+router.delete("/delete", UserController.deleteUser);
 
 router.put("/update", validate(updateUserSchema), UserController.updateUser);
 router.put("/change-password", validate(updatePasswordSchema), AuthController.updatePassword);
 
-router.delete("/delete", UserController.deleteUser);
 
 export { router as protectedAuthRoutes };

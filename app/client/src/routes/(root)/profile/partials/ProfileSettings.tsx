@@ -1,21 +1,23 @@
-import DeleteDialog from "@/components/dialogs/DeleteDialog";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { useApiMutation } from "@/hooks/hook";
 import { toast } from "sonner";
 
+import { API } from "@/config/config";
+import { useApiMutation } from "@/hooks/hook";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import DeleteDialog from "@/components/dialogs/DeleteDialog";
+
 const ProfileSettings = () => {
-  const { mutateAsync: deleteUser } = useApiMutation("DELETE", "/auth/delete", {
+  const { mutateAsync: deleteUser } = useApiMutation("DELETE", API.USER.DELETE_ME, {
     invalidateQueries: [["auth", "me"]],
     onSuccess: (data) => toast.success(data.message),
     onError: (err) => toast.error(err.response?.data.message),
   });
 
   return (
-    <Card className="bg-red-600/10 border-none shadow-none">
+    <Card className="bg-red-600/10 dark:bg-destructive/10 border-none shadow-none">
       <CardContent>
         <div>
-          <h3 className="font-medium text-lg text-red-600/50">Danger Zone</h3>
+          <h3 className="font-medium text-lg text-red-600/50 dark:text-destructive">Danger Zone</h3>
           <p className="text-sm mt-2 text-stone-400 max-w-md">
             Deleting your account is permanent and will remove all your data.
             This action cannot be undone.

@@ -36,6 +36,9 @@ router.post(
   validate(emailSchema, "body", "email"),
   AuthController.sendPasswordEmail
 );
+
+
+
 router.get("/providers", AuthController.providers);
 
 strategies.forEach(({ name }) => {

@@ -14,16 +14,17 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChevronsUpDown, Layout, LogOut, Sparkles, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ROUTES } from "@/config/routes";
 
 const dropdownLinks = [
   {
     name: "Dashboard",
-    url: "/dashboard",
+    url: ROUTES.BASE.APP,
     icon: Layout,
   },
   {
     name: "Profile",
-    url: "/profile",
+    url: ROUTES.AUTHENTICATED.PROFILE,
     icon: User,
   },
 ];

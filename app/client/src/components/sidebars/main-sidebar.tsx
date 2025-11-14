@@ -7,7 +7,7 @@ import {
   PieChart,
   Send,
   Settings2,
-  User,
+  User as U,
 } from "lucide-react";
 
 import {
@@ -23,29 +23,31 @@ import { lazy, Suspense } from "react";
 import { NavMain } from "./main-nav";
 import { NavProjects } from "./secondary-nav";
 import { UserDropdownSkeleton } from "@/components/dropdowns/user-dropdown";
+import { ROUTES } from "@/config/routes";
+import { useAuth } from "@/contexts/AuthContext";
+import type { User } from "@shared/types/user";
 
 const LazyUserDropdown = lazy(() => import("@/components/dropdowns/user-dropdown"))
 
-const data = {
+const sidebarData = (authUser: User | null) => ({
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: authUser?.username ?? "Unknown",
+    email: authUser?.email ?? "unknown@example.com",
+    avatar: "/avatars/default.jpg",
   },
   navMain: [
     {
       title: "Settings",
-      url: "/settings",
       icon: Settings2,
       items: [
         {
           title: "Settings",
-          url: "/settings",
-          icon: User
+          url: ROUTES.AUTHENTICATED.SETTINGS,
+          icon: U,
         },
         {
           title: "Profile",
-          url: "/profile",
+          url: ROUTES.AUTHENTICATED.PROFILE,
         },
       ],
     },
@@ -79,9 +81,14 @@ const data = {
       icon: Map,
     },
   ],
-};
+});
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const { user } = useAuth();
+
+  const data = sidebarData(user);
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>

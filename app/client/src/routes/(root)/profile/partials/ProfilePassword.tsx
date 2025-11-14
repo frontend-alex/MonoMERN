@@ -19,8 +19,11 @@ import {
 } from "@shared/schemas/auth/auth.schema";
 import { LoaderCircle } from "lucide-react";
 import { lazy, Suspense } from "react";
+import { API } from "@/config/config";
 
-const PasswordStrengthChecks = lazy(() => import("@/components/PasswordChecker"))
+const PasswordStrengthChecks = lazy(
+  () => import("@/components/PasswordChecker")
+);
 
 const ProfilePassword = ({ user }: { user: User }) => {
   if (user.provider != AccountProviders.Credentials) return null;
@@ -37,12 +40,17 @@ const ProfilePassword = ({ user }: { user: User }) => {
   const { watch } = updatePasswordsForm;
 
   const { mutateAsync: updatePassword, isPending } =
-    useApiMutation<updatePasswordSchemaType>("PUT", "/auth/update-password", {
-      onSuccess: (data) => {
-        updatePasswordsForm.reset(), toast.success(data.message);
-      },
-      onError: (err) => toast.error(err.response?.data.message),
-    });
+    useApiMutation<updatePasswordSchemaType>(
+      "PUT",
+      API.AUTH.PRIVATE.UPDATE_PASSWORD,
+      {
+        onSuccess: (data) => {
+          updatePasswordsForm.reset();
+          toast.success(data.message);
+        },
+        onError: (err) => toast.error(err.response?.data.message),
+      }
+    );
 
   const handleUpdatePassword = async (data: updatePasswordSchemaType) =>
     await updatePassword(data);

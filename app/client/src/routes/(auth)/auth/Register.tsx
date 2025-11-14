@@ -11,6 +11,8 @@ import {
   type RegistrationSchemaType,
 } from "@shared/schemas/auth/auth.schema";
 import type { Providers } from "@/components/auth/forms/buttons/provider-buttons";
+import { API } from "@/config/config";
+import { ROUTES } from "@/config/routes";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -32,28 +34,30 @@ const Register = () => {
   const { mutateAsync: register, isPending } = useApiMutation<
     { email: string },
     RegistrationSchemaType
-  >("POST", "/auth/register", {
+  >("POST", API.AUTH.PUBLIC.REGISTER, {
     onSuccess: ({ data, message }) => {
       const email = data?.email;
       if (email) {
         toast.success(message);
         sendOtp({ email });
-        navigate(`/verify-email?email=${email}`);
+        navigate(`${ROUTES.PUBLIC.VERIFY_EMAIL}?email=${email}`);
       }
     },
     onError: (err) => {
       const error = err.response?.data;
       if (error?.otpRedirect && error?.email) {
-        navigate(`/verify-email?email=${error.email}`);
+        navigate(`${ROUTES.PUBLIC.VERIFY_EMAIL}?email=${error.email}`);
         return;
       }
-      toast.error(error?.userMessage || error?.message || "Something went wrong");
+      toast.error(
+        error?.userMessage || error?.message || "Something went wrong"
+      );
     },
   });
 
   const { data: providerRes } = useApiQuery<{
     publicProviders: Providers[];
-  }>(["providers"], "/auth/providers");
+  }>(["providers"], API.AUTH.PUBLIC.PROVIDERS);
 
   const handleRegister = (data: RegistrationSchemaType) => register(data);
 
