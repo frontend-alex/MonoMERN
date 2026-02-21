@@ -30,6 +30,9 @@ COPY app/client/ app/client/
 RUN rm -rf packages/shared/build packages/shared/tsconfig.tsbuildinfo \
            app/client/dist
 
+# Set API URL for production (nginx proxies /api/ to the server container)
+ENV VITE_API_URL=/api/v1/
+
 # Build shared package first, then client with Vite
 RUN pnpm --filter shared run build
 RUN pnpm --filter client run build
