@@ -1,24 +1,27 @@
 import { Suspense } from "react";
-
 import { Route, Routes } from "react-router-dom";
 
-import Loading from "@/components/Loading";
-import TitleWrapper from "@/components/TitleWrapper";
-import AuthLayout from "@/components/layouts/AuthLayout";
+import { Loading } from "@/components/Loading";
+import { TitleWrapper } from "@/components/TitleWrapper";
+
+import AuthGuard from "@/components/guards/AuthGuard";
+import RootGuard from "@/components/guards/RootGuard";
+
 import RootLayout from "@/components/layouts/RootLayout";
 
 import { Dashboard, Profile, Settings } from "@/routes/(root)";
-import { AuthCallback, ForgotPassword, LandingPage, Login, Otp, Register } from "@/routes/(auth)";
+import { AuthCallback, ForgotPassword, LandingPage, Login, Otp, Register, ResetPassword } from "@/routes/(auth)";
 
-import { ROUTES } from "./config/routes";
-import ResetPassword from "./routes/(auth)/auth/ResetPassword";
-import { DotBackground } from "./components/ui/backgrounds/dot-background";
+import { ROUTES } from "@/config/routes";
+import { DotBackground } from "@/components/ui/backgrounds/dot-background";
 
 const App = () => {
   return (
     <Suspense fallback={<Loading />}>
       <DotBackground className="absolute top-0 h-[50dvh] -z-1" />
       <Routes>
+
+        {/* Public Routes */}
         <Route
           path={ROUTES.PUBLIC.LANDING}
           element={
@@ -36,7 +39,8 @@ const App = () => {
           }
         />
 
-        <Route element={<AuthLayout />}>
+        {/* Public Routes */}
+        <Route element={<AuthGuard />}>
           <Route
             path={ROUTES.PUBLIC.LOGIN}
             element={
@@ -78,31 +82,36 @@ const App = () => {
             }
           />
         </Route>
-        <Route element={<RootLayout />}>
-          <Route
-            path={ROUTES.BASE.APP}
-            element={
-              <TitleWrapper title="Dashboard Page">
-                <Dashboard />
-              </TitleWrapper>
-            }
-          />
-          <Route
-            path={ROUTES.AUTHENTICATED.PROFILE}
-            element={
-              <TitleWrapper title="Dashboard Page">
-                <Profile />
-              </TitleWrapper>
-            }
-          />
-          <Route
-            path={ROUTES.AUTHENTICATED.SETTINGS}
-            element={
-              <TitleWrapper title="Settings Page">
-                <Settings />
-              </TitleWrapper>
-            }
-          />
+
+
+        {/* Authenticated Routes */}
+        <Route element={<RootGuard />}>
+          <Route element={<RootLayout />}>
+            <Route
+              path={ROUTES.BASE.APP}
+              element={
+                <TitleWrapper title="Dashboard Page">
+                  <Dashboard />
+                </TitleWrapper>
+              }
+            />
+            <Route
+              path={ROUTES.AUTHENTICATED.PROFILE}
+              element={
+                <TitleWrapper title="Dashboard Page">
+                  <Profile />
+                </TitleWrapper>
+              }
+            />
+            <Route
+              path={ROUTES.AUTHENTICATED.SETTINGS}
+              element={
+                <TitleWrapper title="Settings Page">
+                  <Settings />
+                </TitleWrapper>
+              }
+            />
+          </Route>
         </Route>
       </Routes>
     </Suspense>
