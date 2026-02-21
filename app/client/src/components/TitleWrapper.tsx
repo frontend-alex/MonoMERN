@@ -13,4 +13,4 @@ const TitleWrapper = ({ title, children }: TitleWrapperProps) => {
   return <>{children}</>;
 };
 
-export default TitleWrapper;
+export { TitleWrapper };
