@@ -81,7 +81,7 @@ if ($envContent -match "CHANGE_ME_RANDOM_SECRET") {
 
 if ($envContent -match "CHANGE_ME_JWT_SECRET") {
     $secret = New-Secret
-    $envContent = $envContent -replace "CHANGE_ME_JWT_SECRET", `$secret
+    $envContent = $envContent -replace "CHANGE_ME_JWT_SECRET", $secret
     Write-Host "  ✓ Generated JWT_SECRET" -ForegroundColor Green
 }
 
