@@ -1,0 +1,48 @@
+# Dependencies
+**/node_modules
+
+# Build outputs
+**/dist
+**/build
+**/.turbo
+
+# Git
+.git
+.github
+.gitignore
+
+# Environment files (injected at runtime)
+**/.env
+**/.env.local
+.env.docker
+
+# Logs
+**/logs
+**/*.log
+
+# IDE / OS
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Tests
+tests/
+**/*.test.*
+**/*.spec.*
+vitest.config.mjs
+
+# Docs & Meta
+docs/
+*.md
+!packages/shared/package.json
+!app/client/package.json
+!app/server/package.json
+
+# Husky
+.husky
+
+# Stats
+stats.html

@@ -5,7 +5,7 @@ import { strategies } from "@/shared/constants/authProviders";
 import { UserRepo } from "@/infrastructure/repositories/user/user.repository";
 import { AuthRepo } from "@/infrastructure/repositories/auth/auth.repository";
 
-strategies.forEach(({ Strategy, config, label }) => {
+strategies.filter(s => s.enabled).forEach(({ Strategy, config, label }) => {
   passport.use(
     new Strategy(config, async (_accessToken, _refreshToken, profile, done) => {
       try {

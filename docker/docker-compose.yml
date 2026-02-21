@@ -1,0 +1,101 @@
+# ============================================
+# MonoMERN Docker Compose
+# ============================================
+# Usage:
+#   First time:  ./scripts/deployment/deploy.sh
+#   Manual:      docker compose -f docker/docker-compose.yml up --build -d
+#   Tear down:   docker compose -f docker/docker-compose.yml down
+#   With data:   docker compose -f docker/docker-compose.yml down -v
+# ============================================
+
+services:
+  # ------------------------------------------
+  # MongoDB Database
+  # ------------------------------------------
+  mongo:
+    image: mongo:7
+    container_name: monomern-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ------------------------------------------
+  # Express API Server
+  # ------------------------------------------
+  server:
+    build:
+      context: ..
+      dockerfile: docker/server/Dockerfile
+    container_name: monomern-server
+    restart: unless-stopped
+    env_file: .env.docker
+    environment:
+      - NODE_ENV=production
+      - DB_LOCAL_URI=mongodb://mongo:27017/monomern
+      - HOST=0.0.0.0
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - backend
+      - frontend
+
+  # ------------------------------------------
+  # Nginx Client (serves React app + proxies API)
+  # ------------------------------------------
+  client:
+    build:
+      context: ..
+      dockerfile: docker/client/Dockerfile
+    container_name: monomern-client
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - server
+    volumes:
+      - certbot_conf:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
+    networks:
+      - frontend
+
+  # ------------------------------------------
+  # Certbot (Let's Encrypt SSL)
+  # ------------------------------------------
+  certbot:
+    image: certbot/certbot
+    container_name: monomern-certbot
+    volumes:
+      - certbot_conf:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
+    # Renew certificates every 12 hours
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+# ============================================
+# Volumes
+# ============================================
+volumes:
+  mongo_data:
+    driver: local
+  certbot_conf:
+    driver: local
+  certbot_www:
+    driver: local
+
+# ============================================
+# Networks
+# ============================================
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
