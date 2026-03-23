@@ -3,46 +3,42 @@ import jwt, { Secret } from "jsonwebtoken";
 import { createError } from "@/core/error/errors";
 import { DecodedUser } from "@/api/middlewares/auth";
 
-
-function generateToken(
+const generateToken = (
   userId: string,
   username: string,
-  rememberMe?: boolean
-): string {
+  rememberMe?: boolean,
+): string => {
   return jwt.sign({ id: userId, username }, env.JWT_SECRET as Secret, {
     expiresIn: rememberMe ? "1h" : "7d",
   });
-}
+};
 
-function generateRefreshToken(userId: string, username: string): string {
+const generateRefreshToken = (userId: string, username: string): string => {
   return jwt.sign({ id: userId, username }, env.JWT_REFRESH_SECRET as Secret, {
     expiresIn: "7d",
   });
-}
+};
 
-function verifyToken(token: string): DecodedUser {
+const verifyToken = (token: string): DecodedUser => {
   try {
     return jwt.verify(token, env.JWT_SECRET as Secret) as DecodedUser;
   } catch {
     throw createError("INVALID_TOKEN");
   }
-}
+};
 
-function verifyRefreshToken(token: string): DecodedUser {
+const verifyRefreshToken = (token: string): DecodedUser => {
   try {
-    return jwt.verify(
-      token,
-      env.JWT_REFRESH_SECRET as Secret
-    ) as DecodedUser;
+    return jwt.verify(token, env.JWT_REFRESH_SECRET as Secret) as DecodedUser;
   } catch {
     throw createError("INVALID_REFRESH_TOKEN");
   }
-}
+};
 
-function refreshAccessToken(refreshToken: string): string {
+const refreshAccessToken = (refreshToken: string): string => {
   const { id, username } = verifyRefreshToken(refreshToken);
   return generateToken(id, username);
-}
+};
 
 export const jwtUtils = {
   generateToken,

@@ -1,14 +1,17 @@
-import { UserRepo } from "@/infrastructure/repositories/user/user.repository";
-import { UserService } from "@/core/services/user/user.service";
+
+import { createUserService } from "@/core/services/user/user.service";
+import { UserRepo } from "@/dal/repositories/user/user.repository";
+
+const UserService = createUserService(UserRepo);
 import { NextFunction, Request, Response } from "express";
 
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await UserRepo.findById(req.user?.id!);
+    const user = await UserService.getUser(req.user?.id!);
 
-    res.status(201).json({
+    res.status(200).json({
       success: true,
-      messsage: "Data successfully fetched",
+      message: "Data successfully fetched",
       data: {
         user,
       },
@@ -35,17 +38,14 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-  
   const userId = req.user?.id!;
-  
-  try {
 
+  try {
     await UserService.deleteUser(userId);
     res.status(201).json({
       success: true,
-      message: "Account successfully deleted"
-    })
-
+      message: "Account successfully deleted",
+    });
   } catch (err) {
     next(err);
   }
