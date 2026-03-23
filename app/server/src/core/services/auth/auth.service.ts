@@ -5,16 +5,24 @@ import { OtpType } from "@shared/types/otp";
 import { config } from "@shared/config/config";
 import { createError } from "@/core/error/errors";
 import { DecodedUser } from "@/api/middlewares/auth";
-import { AccountProviders } from "@shared/types/user";
-import { EmailUtils } from "@/infrastructure/email/email";
-import { jwtUtils } from "@/infrastructure/auth/jwt/jwt";
-import { UserRepo } from "@/infrastructure/repositories/user/user.repository";
-import { AuthRepo } from "@/infrastructure/repositories/auth/auth.repository";
-import { sendOtp as sendOtpService, verifyOtp } from "@/core/services/auth/otp.service";
+import { AccountProviders, User } from "@shared/types/user";
+import { EmailUtils } from "@/dal/email/email";
+import { jwtUtils } from "@/dal/auth/jwt/jwt";
+import { IUserRepo } from "@/dal/interfaces/user/user.interface";
+import { OtpServiceType } from "@/core/services/auth/otp.service";
+import { UserMapper } from "@/core/mappers/UserMapper";
 
-const login = async (email: string, password: string) => {
+export const createAuthService = (UserRepo: IUserRepo, otpService: OtpServiceType) => {
+  const login = async (
+  email: string,
+  password: string,
+): Promise<{
+  user: User;
+  accessToken: string;
+  refreshToken: string;
+}> => {
   try {
-    const user = await UserRepo.findByEmail(email);
+    const user = await UserRepo.findByEmailWithPassword(email);
     if (!user) throw createError("INVALID_CREDENTIALS");
 
     if (user.provider != AccountProviders.Credentials)
@@ -23,35 +31,60 @@ const login = async (email: string, password: string) => {
     const isMatch = await user.matchPassword(password);
     if (!isMatch) throw createError("INVALID_CREDENTIALS");
 
-    if (!user.emailVerified) throw createError("EMAIL_NOT_VERIFIED", { extra: { otpRedirect: true, email } });
+    if (!user.emailVerified)
+      throw createError("EMAIL_NOT_VERIFIED", {
+        extra: { otpRedirect: true, email },
+      });
 
     const accessToken = jwtUtils.generateToken(user.id, user.username);
     const refreshToken = jwtUtils.generateRefreshToken(user.id, user.username);
 
-    return { accessToken, refreshToken };
+    return { 
+      user: UserMapper.toUserDTO(user), 
+      accessToken, 
+      refreshToken 
+    };
   } catch (err) {
     throw err;
   }
 };
 
-const handleAuthCallback = async (user: DecodedUser) => {
+const handleAuthCallback = async (
+  user: DecodedUser,
+): Promise<{
+  user: User;
+  accessToken: string;
+  refreshToken: string;
+}> => {
   if (!user) throw createError("USER_NOT_FOUND");
   
+  // Need to fetch full user to get DTO
+  const dbUser = await UserRepo.findById(user.id);
+  if (!dbUser) throw createError("USER_NOT_FOUND");
+
   const accessToken = jwtUtils.generateToken(user.id, user.username);
   const refreshToken = jwtUtils.generateRefreshToken(user.id, user.username);
 
-  return { accessToken, refreshToken };
+  return { user: UserMapper.toUserDTO(dbUser), accessToken, refreshToken };
 };
 
-const refreshTokens = async (refreshToken: string) => {
+const refreshTokens = async (
+  refreshToken: string,
+): Promise<{
+  accessToken: string;
+  refreshToken: string;
+}> => {
   try {
     const decoded = jwtUtils.verifyRefreshToken(refreshToken);
-    
+
     const user = await UserRepo.findById(decoded.id);
     if (!user) throw createError("USER_NOT_FOUND");
 
     const newAccessToken = jwtUtils.generateToken(user.id, user.username);
-    const newRefreshToken = jwtUtils.generateRefreshToken(user.id, user.username);
+    const newRefreshToken = jwtUtils.generateRefreshToken(
+      user.id,
+      user.username,
+    );
 
     return { accessToken: newAccessToken, refreshToken: newRefreshToken };
   } catch (err) {
@@ -59,8 +92,11 @@ const refreshTokens = async (refreshToken: string) => {
   }
 };
 
-
-const register = async (username: string, email: string, password: string) => {
+const register = async (
+  username: string,
+  email: string,
+  password: string,
+): Promise<User> => {
   try {
     const existingUserEmail = await UserRepo.findByEmail(email);
     if (existingUserEmail) {
@@ -76,32 +112,34 @@ const register = async (username: string, email: string, password: string) => {
     const existingUserUsername = await UserRepo.findByUsername(username);
     if (existingUserUsername) throw createError("USERNAME_ALREADY_TAKEN");
 
-    return await AuthRepo.createUser(username, email, password);
+    const user = await UserRepo.createUser(username, email, password);
+
+    return UserMapper.toUserDTO(user);
   } catch (err) {
     throw err;
   }
 };
 
-const sendOtp = async (email: string) => {
+const sendOtp = async (email: string): Promise<void> => {
   try {
     const user = await UserRepo.findByEmail(email);
 
     if (!user) throw createError("USER_NOT_FOUND");
     if (user.emailVerified) throw createError("EMAIL_ALREADY_VERIFIED");
 
-    return await sendOtpService(user.id, email, OtpType.EmailVerification);
+    return await otpService.sendOtp(user.id, email, OtpType.EmailVerification);
   } catch (err) {
     throw err;
   }
 };
 
-const validateOtp = async (email: string, otp: string) => {
+const validateOtp = async (email: string, otp: string): Promise<void> => {
   try {
     const user = await UserRepo.findByEmail(email);
     if (!user) throw createError("USER_NOT_FOUND");
 
     // Verify OTP using the new service
-    await verifyOtp(user.id, otp, OtpType.EmailVerification);
+    await otpService.verifyOtp(user.id, otp, OtpType.EmailVerification);
 
     // Mark user as email verified
     await UserRepo.safeUpdate({ email }, { emailVerified: true });
@@ -113,8 +151,8 @@ const validateOtp = async (email: string, otp: string) => {
 const updatePassword = async (
   userId: string,
   currentPassword: string,
-  newPassword: string
-) => {
+  newPassword: string,
+): Promise<User> => {
   try {
     const user = await UserRepo.findById(userId);
     if (!user) throw createError("USER_NOT_FOUND");
@@ -126,7 +164,12 @@ const updatePassword = async (
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    await UserRepo.safeUpdate({ id: user.id }, { password: hashedPassword });
+    const updatedUser = await UserRepo.safeUpdate(
+      { id: user.id },
+      { password: hashedPassword },
+    );
+
+    return UserMapper.toUserDTO(updatedUser!);
   } catch (err) {
     throw err;
   }
@@ -146,7 +189,7 @@ const sendPasswordEmail = async (email: string) => {
 
     await UserRepo.safeUpdate(
       { _id: user.id },
-      { tokenExpiry, resetToken: token }
+      { tokenExpiry, resetToken: token },
     );
 
     const resetLink = `${env.CORS_ORIGINS}/reset-password`;
@@ -177,21 +220,24 @@ const resetPassword = async (userId: string, newPassword: string) => {
 
     await UserRepo.safeUpdate(
       { _id: user.id },
-      { password: hashedPassword, $unset: { resetToken: 1, tokenExpiry: 1 } }
+      { password: hashedPassword, $unset: { resetToken: 1, tokenExpiry: 1 } },
     );
   } catch (err) {
     throw err;
   }
 };
 
-export const AuthService = {
-  login,
-  sendOtp,
-  register,
-  validateOtp,
-  resetPassword,
-  updatePassword,
-  refreshTokens,
-  sendPasswordEmail,
-  handleAuthCallback,
+  return {
+    login,
+    sendOtp,
+    register,
+    validateOtp,
+    resetPassword,
+    updatePassword,
+    refreshTokens,
+    sendPasswordEmail,
+    handleAuthCallback,
+  };
 };
+
+export type AuthServiceType = ReturnType<typeof createAuthService>;

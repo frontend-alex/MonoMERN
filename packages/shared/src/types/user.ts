@@ -1,17 +1,17 @@
 export enum AccountProviders {
-  Credentials = 'Credentials',
-  Google = 'Google',
-  Github = 'Github',
-  Facebook = 'Facebook',
+  Credentials = "Credentials",
+  Google = "Google",
+  Github = "Github",
+  Facebook = "Facebook",
 }
 
 export type User = {
-  _id: string;
+  id: string;
   username: string;
   email: string;
-  provider: AccountProviders; 
+  provider: AccountProviders;
   emailVerified: boolean;
   hasPassword: boolean;
   createdAt: string;
   updatedAt: string;
-}
+};

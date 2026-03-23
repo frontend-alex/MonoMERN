@@ -2,7 +2,13 @@ import { env } from "@/config/env";
 import { DecodedUser } from "@/api/middlewares/auth";
 import { NextFunction, Request, Response } from "express";
 import { strategies } from "@/shared/constants/authProviders";
-import { AuthService } from "@/core/services/auth/auth.service";
+import { createAuthService } from "@/core/services/auth/auth.service";
+import { createOtpService } from "@/core/services/auth/otp.service";
+import { UserRepo } from "@/dal/repositories/user/user.repository";
+import { OtpRepo } from "@/dal/repositories/auth/otp.repository";
+
+const otpService = createOtpService(OtpRepo);
+const AuthService = createAuthService(UserRepo, otpService);
 
 const providers = (_req: Request, res: Response, next: NextFunction) => {
   try {
@@ -67,7 +73,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
 
   try {
-    const { accessToken, refreshToken } = await AuthService.login(email, password);
+    const { user, accessToken, refreshToken } = await AuthService.login(email, password);
 
     res.cookie("access_token", accessToken, ACCESS_TOKEN_OPTIONS);
     res.cookie("refresh_token", refreshToken, REFRESH_TOKEN_OPTIONS);
@@ -75,6 +81,9 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     res.status(201).json({
       success: true,
       message: "Successfully logged in",
+      data: {
+        user,
+      },
     });
   } catch (err) {
     next(err);
