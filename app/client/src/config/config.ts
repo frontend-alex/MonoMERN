@@ -14,13 +14,13 @@ export const API = {
     PRIVATE: {
       LOGOUT: "/auth/logout",
       VALIDATE_OTP: "/auth/validate-otp",
-      UPDATE_PASSWORD: "/auth/update-password",
       CHANGE_PASSWORD: "/auth/change-password",
+      UPDATE_PASSWORD: "/auth/update-password",
     },
   },
   USER: {
-    GET_ME: "/auth/me",
-    UPDATE_ME: "/auth/update",
-    DELETE_ME: "/auth/delete",
+    GET_ME: "/user/me",
+    UPDATE_ME: "/user/update",
+    DELETE_ME: "/user/delete",
   },
 };

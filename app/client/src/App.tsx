@@ -1,16 +1,16 @@
 import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import { Loading } from "@/components/Loading";
-import { TitleWrapper } from "@/components/TitleWrapper";
+import { Loading } from "@/components/feedback/loading";
+import { TitleWrapper } from "@/components/meta/title-wrapper";
 
-import AuthGuard from "@/components/guards/AuthGuard";
-import RootGuard from "@/components/guards/RootGuard";
+import AuthGuard from "@/features/auth/guards/auth-guard";
+import RootGuard from "@/features/auth/guards/root-guard";
 
-import RootLayout from "@/components/layouts/RootLayout";
+import RootLayout from "@/components/layouts/root-layout";
 
-import { Dashboard, Profile, Settings } from "@/routes/(root)";
-import { AuthCallback, ForgotPassword, LandingPage, Login, Otp, Register, ResetPassword } from "@/routes/(auth)";
+import { Dashboard, Profile, Settings } from "@/pages/(root)";
+import { AuthCallback, ForgotPassword, LandingPage, Login, Otp, Register, ResetPassword } from "@/pages/(auth)";
 
 import { ROUTES } from "@/config/routes";
 import { DotBackground } from "@/components/ui/backgrounds/dot-background";

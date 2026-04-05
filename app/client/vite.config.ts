@@ -13,13 +13,20 @@ function envReloadPlugin(): Plugin {
   return {
     name: "env-reload",
     configureServer(server) {
-      const envFiles = [".env", ".env.local", ".env.development", ".env.development.local"];
-      
+      const envFiles = [
+        ".env",
+        ".env.local",
+        ".env.development",
+        ".env.development.local",
+      ];
+
       envFiles.forEach((file) => {
         const envPath = path.resolve(__dirname, file);
         if (fs.existsSync(envPath)) {
           fs.watch(envPath, () => {
-            console.log(`\n[env-reload] ${file} changed, restarting server...\n`);
+            console.log(
+              `\n[env-reload] ${file} changed, restarting server...\n`,
+            );
             server.restart();
           });
         }
