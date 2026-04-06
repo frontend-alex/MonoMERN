@@ -1,4 +1,4 @@
 packages:
-  - "apps/client"
-  - "apps/server"
+  - "app/client"
+  - "app/server"
   - "packages/shared"

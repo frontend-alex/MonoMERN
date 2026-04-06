@@ -53,8 +53,8 @@ We strongly recommend that any production deployments stay up to date with the l
 
 MonoMERN uses **pnpm workspaces** with separate `package.json` files for:
 
-- `apps/client` – React front‑end.
-- `apps/server` – Node/Express back‑end.
+- `app/client` – React front‑end.
+- `app/server` – Node/Express back‑end.
 - `packages/shared` – shared schemas, types, and configuration.
 
 Practices:
