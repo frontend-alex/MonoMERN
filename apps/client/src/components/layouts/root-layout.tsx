@@ -18,7 +18,7 @@ const RootLayout = () => {
           <AppBreadcrumbs />
         </div>
 
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto relative">
           <div className="mx-auto p-5 max-w-4xl">
             <Outlet />
           </div>
