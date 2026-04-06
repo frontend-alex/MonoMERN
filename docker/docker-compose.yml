@@ -39,11 +39,10 @@ services:
     env_file: .env.docker
     environment:
       - NODE_ENV=production
-      - DB_LOCAL_URI=mongodb://mongo:27017/monomern
       - HOST=0.0.0.0
-    depends_on:
-      mongo:
-        condition: service_healthy
+    # depends_on:
+    #   mongo:
+    #     condition: service_healthy
     networks:
       - backend
       - frontend
