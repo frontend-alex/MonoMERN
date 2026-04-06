@@ -8,9 +8,9 @@ export default defineConfig({
   resolve: {
     alias: {
       // Client aliases (for client tests)
-      '@': resolve(fileURLToPath(new URL('./apps/client/src', import.meta.url))),
+      '@': resolve(fileURLToPath(new URL('./app/client/src', import.meta.url))),
       // Server aliases (for server tests) - using @server prefix
-      '@server': resolve(fileURLToPath(new URL('./apps/server/src', import.meta.url))),
+      '@server': resolve(fileURLToPath(new URL('./app/server/src', import.meta.url))),
       // Shared aliases
       '@shared': resolve(fileURLToPath(new URL('./packages/shared/src', import.meta.url))),
     },

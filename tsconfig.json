@@ -2,8 +2,8 @@
   "extends": "./tsconfig.base.json",
   "files": [],
   "references": [
-    { "path": "./apps/client" },
-    { "path": "./apps/server" },
+    { "path": "./app/client" },
+    { "path": "./app/server" },
     { "path": "./packages/shared" }
   ],
   "compilerOptions": {
