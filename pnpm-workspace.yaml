@@ -2,3 +2,14 @@ packages:
   - "app/client"
   - "app/server"
   - "packages/shared"
+allowBuilds:
+  '@tailwindcss/oxide': true
+  bcrypt: true
+  cwebp-bin: true
+  esbuild: true
+  gifsicle: true
+  jpegtran-bin: true
+  mozjpeg: true
+  optipng-bin: true
+  pngquant-bin: true
+  unrs-resolver: true

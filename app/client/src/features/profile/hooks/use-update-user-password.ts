@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   updatePasswordSchema,
   type updatePasswordSchemaType,
-} from "@shared/schemas/auth/auth.schema";
+} from "shared/schemas/auth/auth.schema";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 

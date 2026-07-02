@@ -4,7 +4,7 @@ import AppLogo from "@/components/branding/logo";
 import { toast } from "sonner";
 import { useFormWithSchema } from "@/lib/utils";
 import { useApiMutation } from "@/hooks/use-api-mutation";
-import { emailSchema } from "@shared/schemas/user/user.schema";
+import { emailSchema } from "shared/schemas/user/user.schema";
 import { ForgotPasswordForm } from "@/features/auth/forms/password/forgot-password-02";
 import { API } from "@/config/config";
 

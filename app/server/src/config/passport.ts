@@ -1,6 +1,6 @@
 import passport from "passport";
 
-import { AccountProviders } from "@shared/types/user";
+import { AccountProviders } from "shared/types/user";
 import { strategies } from "@/shared/constants/authProviders";
 import { UserRepo } from "@/infrastructure/repositories/user/user.repository";
 

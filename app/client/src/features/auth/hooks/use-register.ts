@@ -16,7 +16,7 @@ import type { Providers } from "@/features/auth/forms/buttons/provider-buttons";
 import {
   registrationSchema,
   type RegistrationSchemaType,
-} from "@shared/schemas/auth/auth.schema";
+} from "shared/schemas/auth/auth.schema";
 
 export const useRegister = () => {
   const navigate = useNavigate();

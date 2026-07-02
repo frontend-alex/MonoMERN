@@ -1,6 +1,6 @@
 import type { mongo } from "mongoose";
 import { IOtp } from "@/core/models/Otp";
-import { OtpType } from "@shared/types/otp";
+import { OtpType } from "shared/types/otp";
 
 export interface IOtpRepo {
   createOtp(

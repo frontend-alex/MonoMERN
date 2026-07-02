@@ -13,7 +13,7 @@ import {
   usernameSchema, 
   passwordSchema,
   updateUserSchema 
-} from '@shared/schemas/user/user.schema'
+} from 'shared/schemas/user/user.schema'
 
 describe('API Contracts', () => {
   describe('User Schema Contracts', () => {
@@ -122,4 +122,3 @@ describe('API Contracts', () => {
     })
   })
 })
-

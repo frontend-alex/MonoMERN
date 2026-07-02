@@ -1,5 +1,5 @@
 import { ROUTES } from "@/config/routes";
-import { config } from "@shared/config/config";
+import { config } from "shared/config/config";
 import { Layers } from "lucide-react";
 import { Link } from "react-router-dom";
 

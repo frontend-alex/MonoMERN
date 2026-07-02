@@ -1,6 +1,6 @@
 import { createError } from "@/core/error/errors";
 import { UserMapper } from "@/core/mappers/UserMapper";
-import { User } from "@shared/types/user";
+import { User } from "shared/types/user";
 import { IUserRepo } from "@/infrastructure/interfaces/user/user.interface";
 
 export const createUserService = (UserRepo: IUserRepo) => {

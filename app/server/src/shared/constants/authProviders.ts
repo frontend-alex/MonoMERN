@@ -8,7 +8,7 @@ import { Strategy as GitHubStrategy } from "passport-github2";
 import { Strategy as TwitterStrategy } from "passport-twitter";
 import { Strategy as LinkedInStrategy } from "passport-linkedin-oauth2";
 import { Strategy as InstagramStrategy } from "passport-instagram";
-import { config } from "@shared/config/config";
+import { config } from "shared/config/config";
 
 type VerifyCallback = (
   accessToken: string,

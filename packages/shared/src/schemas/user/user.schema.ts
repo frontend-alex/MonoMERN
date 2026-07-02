@@ -1,4 +1,4 @@
-import { config } from "@shared/config/config";
+import { config } from "../../config/config";
 import z from "zod";
 
 export const emailSchema = z.string().email("Invalid email address");

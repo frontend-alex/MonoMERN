@@ -5,7 +5,7 @@ import type {
   RegistrationSchemaType,
   resetPasswordSchemaType,
   updatePasswordSchemaType,
-} from "@shared/schemas/auth/auth.schema";
+} from "shared/schemas/auth/auth.schema";
 import type { Providers } from "@/features/auth/forms/buttons/provider-buttons";
 
 type BaseFormProps<T extends FieldValues> = {

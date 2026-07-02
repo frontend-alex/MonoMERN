@@ -16,13 +16,7 @@
     "declarationMap": true,
 
     // CJS output for maximum compatibility
-    "verbatimModuleSyntax": false,
-
-    // Path aliases
-    "baseUrl": ".",
-    "paths": {
-      "@shared/*": ["src/*"]
-    }
+    "verbatimModuleSyntax": false
   },
   "include": ["src"]
 }

@@ -12,7 +12,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { config } from "@shared/config/config";
+import { config } from "shared/config/config";
 
 export function ForgotPasswordForm({
   form,

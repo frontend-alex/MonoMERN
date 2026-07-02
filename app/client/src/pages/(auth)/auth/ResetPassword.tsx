@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   updatePasswordSchema,
   type updatePasswordSchemaType,
-} from "@shared/schemas/auth/auth.schema";
+} from "shared/schemas/auth/auth.schema";
 import { UpdatePasswordForm } from "@/features/auth/forms/password/reset-password-02";
 import { API } from "@/config/config";
 

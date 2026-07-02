@@ -1,5 +1,5 @@
-import { OtpType } from "@shared/types/otp";
-import { config } from "@shared/config/config";
+import { OtpType } from "shared/types/otp";
+import { config } from "shared/config/config";
 import { createError } from "@/core/error/errors";
 import { EmailUtils } from "@/infrastructure/email/email";
 import { IOtpRepo } from "@/infrastructure/interfaces/auth/otp.interface";

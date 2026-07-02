@@ -1,4 +1,4 @@
-import { OtpType } from "@shared/types/otp";
+import { OtpType } from "shared/types/otp";
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IOtp extends Document {

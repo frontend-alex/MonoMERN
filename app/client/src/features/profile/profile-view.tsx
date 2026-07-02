@@ -1,4 +1,4 @@
-import { AccountProviders, type User } from "@shared/types/user";
+import { AccountProviders, type User } from "shared/types/user";
 
 import UpdateProfileInfo from "./components/update-profile";
 import ProfilePassword from "./components/update-profile-pass";

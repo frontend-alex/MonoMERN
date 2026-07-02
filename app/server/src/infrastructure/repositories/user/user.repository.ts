@@ -1,7 +1,7 @@
 import { IUser, User } from "@/core/models/User";
 
-import { config } from "@shared/config/config";
-import { AccountProviders } from "@shared/types/user";
+import { config } from "shared/config/config";
+import { AccountProviders } from "shared/types/user";
 import { IUserRepo } from "@/infrastructure/interfaces/user/user.interface";
 
 function filterAllowedUpdates<T extends Record<string, any>>(

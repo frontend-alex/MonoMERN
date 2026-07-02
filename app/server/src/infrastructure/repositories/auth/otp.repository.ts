@@ -1,5 +1,5 @@
 import { Otp } from "@/core/models/Otp";
-import { OtpType } from "@shared/types/otp";
+import { OtpType } from "shared/types/otp";
 import { generateOTP } from "@/shared/utils/utils";
 import type { mongo } from "mongoose";
 

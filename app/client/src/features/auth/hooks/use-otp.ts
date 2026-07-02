@@ -10,7 +10,7 @@ import { useApiMutation } from "@/hooks/use-api-mutation";
 import {
   otpSchema,
   type OtpSchemaType,
-} from "@shared/schemas/auth/auth.schema";
+} from "shared/schemas/auth/auth.schema";
 
 const COOLDOWN_DURATION = 60;
 

@@ -4,7 +4,7 @@ import type {
   ApiSuccessResponse,
   ApiError,
   ApiResponse
-} from "@shared/types/api";
+} from "shared/types/api";
 
 const DEFAULT_STALE_TIME = 5 * 60 * 1000; 
 

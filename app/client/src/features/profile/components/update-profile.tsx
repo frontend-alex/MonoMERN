@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { type UseFormReturn, type FieldPath } from "react-hook-form";
 import { CircleAlert, LoaderCircle } from "lucide-react";
-import { emailSchema, usernameSchema } from "@shared/schemas/user/user.schema";
+import { emailSchema, usernameSchema } from "shared/schemas/user/user.schema";
 import {
     Form,
     FormControl,
@@ -16,7 +16,7 @@ import {
 import { useFormWithSchema } from "@/lib/utils";
 import { ROUTES } from "@/config/routes";
 import { useUpdateUser } from "@/features/profile/hooks/use-update-user";
-import { type User } from "@shared/types/user";
+import { type User } from "shared/types/user";
 
 
 const UpdateProfileInfo = ({ user }: { user: User }) => {

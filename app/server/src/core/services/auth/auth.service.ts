@@ -1,11 +1,11 @@
 import bcrypt from "bcrypt";
 
 import { env } from "@/config/env";
-import { OtpType } from "@shared/types/otp";
-import { config } from "@shared/config/config";
+import { OtpType } from "shared/types/otp";
+import { config } from "shared/config/config";
 import { createError } from "@/core/error/errors";
 import { DecodedUser } from "@/api/middlewares/auth";
-import { AccountProviders, User } from "@shared/types/user";
+import { AccountProviders, User } from "shared/types/user";
 import { EmailUtils } from "@/infrastructure/email/email";
 import { jwtUtils } from "@/infrastructure/auth/jwt/jwt";
 import { IUserRepo } from "@/infrastructure/interfaces/user/user.interface";

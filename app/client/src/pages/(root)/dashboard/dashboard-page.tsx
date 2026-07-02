@@ -1,5 +1,5 @@
 import { DotBackground } from "@/components/ui/backgrounds/dot-background";
-import { config } from "@shared/config/config";
+import { config } from "shared/config/config";
 
 const Dashboard = () => {
   return (

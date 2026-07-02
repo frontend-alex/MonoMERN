@@ -4,7 +4,7 @@ import axios, {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from "axios";
-import type { ApiErrorResponse } from "@shared/types/api";
+import type { ApiErrorResponse } from "shared/types/api";
 import { API } from "@/config/config";
 import { ROUTE_HELPERS, ROUTES } from "@/config/routes";
 

@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ProviderButtons } from "../buttons/provider-buttons";
-import { config } from "@shared/config/config";
+import { config } from "shared/config/config";
 import { ROUTES } from "@/config/routes";
 
 export function LoginForm({

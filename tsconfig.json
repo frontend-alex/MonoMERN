@@ -5,11 +5,5 @@
     { "path": "./app/client" },
     { "path": "./app/server" },
     { "path": "./packages/shared" }
-  ],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@shared/*": ["packages/shared/src/*"]
-    }
-  }
+  ]
 }

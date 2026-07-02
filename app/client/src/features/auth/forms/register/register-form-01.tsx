@@ -15,7 +15,7 @@ import {
 import { LoaderCircle } from "lucide-react";
 import type { RegisterFormProps } from "@/features/auth/types/form-types";
 import { ProviderButtons } from "../buttons/provider-buttons";
-import { config } from "@shared/config/config";
+import { config } from "shared/config/config";
 
 const PasswordStrengthChecks = lazy(
   () => import("@/components/shared/auth/password-checker")

@@ -1,6 +1,6 @@
 import Navbar from "./components/landing-navbar";
 
-import { config } from "@shared/config/config";
+import { config } from "shared/config/config";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Layers, Star } from "lucide-react";
 import { Link } from "react-router-dom";

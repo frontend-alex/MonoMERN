@@ -1,5 +1,5 @@
 import { IUser } from "@/core/models/User";
-import { AccountProviders } from "@shared/types/user";
+import { AccountProviders } from "shared/types/user";
 
 export interface IUserRepo {
   findById(id: string): Promise<IUser | null>;

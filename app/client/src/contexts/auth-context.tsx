@@ -1,5 +1,5 @@
-import type { User } from "@shared/types/user";
-import type { ApiError } from "@shared/types/api";
+import type { User } from "shared/types/user";
+import type { ApiError } from "shared/types/api";
 
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";

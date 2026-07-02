@@ -3,14 +3,14 @@ import passport from "passport";
 import { Router } from "express";
 import { validate } from "@/api/middlewares/validation";
 import { strategies } from "@/shared/constants/authProviders";
-import { emailSchema } from "@shared/schemas/user/user.schema";
+import { emailSchema } from "shared/schemas/user/user.schema";
 import { AuthController } from "@/api/controllers/auth/auth.controller";
 import {
   loginSchema,
   otpSchema,
   registrationSchema,
   resetPasswordSchema,
-} from "@shared/schemas/auth/auth.schema";
+} from "shared/schemas/auth/auth.schema";
 import { resetTokenMiddleware } from "@/api/middlewares/password";
 
 const router: ReturnType<typeof Router> = Router();

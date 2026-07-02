@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { config } from "@shared/config/config";
+import { config } from "shared/config/config";
 import { CheckCircle, XCircle } from "lucide-react";
 
 // eslint-disable-next-line react-refresh/only-export-components

@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
-import type { User } from "@shared/types/user";
+import type { User } from "shared/types/user";
 import { Button } from "@/components/ui/button";
-import { AccountProviders } from "@shared/types/user";
+import { AccountProviders } from "shared/types/user";
 import {
     Form,
     FormControl,

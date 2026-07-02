@@ -6,7 +6,7 @@
  */
 
 import { describe, it, expect, vi } from 'vitest'
-import { emailSchema, passwordSchema, usernameSchema } from '@shared/schemas/user/user.schema'
+import { emailSchema, passwordSchema, usernameSchema } from 'shared/schemas/user/user.schema'
 
 // Mock server response types
 interface AuthResponse {
@@ -132,4 +132,3 @@ describe('Client-Server Integration', () => {
     })
   })
 })
-

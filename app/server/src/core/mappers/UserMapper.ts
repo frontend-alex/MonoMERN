@@ -1,5 +1,5 @@
 import { IUser } from "@/core/models/User";
-import { AccountProviders, User } from "@shared/types/user";
+import { AccountProviders, User } from "shared/types/user";
 
 const toUserDTO = (user: IUser): User => ({
   id: user._id!.toString(),
