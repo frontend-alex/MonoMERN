@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 import { env } from "./env";
-import { logger } from "@/api/application/logging/logger";
+import { logger } from "@/shared/logging/logger";
 
 const MONGO_URI = env.isProd ? env.DB_ATLAS_URI : env.DB_LOCAL_URI;
 

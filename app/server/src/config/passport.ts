@@ -1,8 +1,8 @@
 import passport from "passport";
 
 import { AccountProviders } from "shared/types/user";
-import { strategies } from "@/shared/constants/authProviders";
-import { UserRepo } from "@/infrastructure/repositories/user/user.repository";
+import { strategies } from "@/modules/auth/auth.providers";
+import { userRepository } from "@/modules/users/user.repository";
 
 
 strategies
@@ -23,10 +23,10 @@ strategies
             if (!email)
               return done(null, false, { message: "No email provided" });
 
-            let user = await UserRepo.findByEmail(email);
+            let user = await userRepository.findByEmail(email);
 
             if (!user) {
-              user = await UserRepo.createOAuthUser(
+              user = await userRepository.createOAuthUser(
                 username,
                 email,
                 label as AccountProviders,
@@ -48,7 +48,7 @@ passport.serializeUser((user: any, done) => {
 
 passport.deserializeUser(async (id: string, done) => {
   try {
-    const user = await UserRepo.findById(id);
+    const user = await userRepository.findById(id);
     done(null, user);
   } catch (error) {
     done(error);
