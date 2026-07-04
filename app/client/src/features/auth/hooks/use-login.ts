@@ -11,7 +11,7 @@ import {
   type LoginSchemaType,
 } from "shared/schemas/auth/auth.schema";
 
-export const useLogin = () => {
+export function useLogin() {
   const navigate = useNavigate();
   const { refetch } = useAuth();
 
@@ -51,4 +51,4 @@ export const useLogin = () => {
     isPending,
     handleLogin,
   };
-};
+}

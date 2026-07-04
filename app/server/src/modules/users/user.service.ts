@@ -1,10 +1,10 @@
 import { User } from "shared/types/user";
 
-import { createError } from "@/shared/errors/create-error";
+import { createError } from "@/shared/errors/error";
 import { UserMapper } from "./user.mapper";
-import { UserRepository } from "./user-repository.interface";
+import { UserRepository } from "./user.repository.port";
 
-export const createUserService = (userRepository: UserRepository) => {
+export function createUserService(userRepository: UserRepository) {
   const getUser = async (userId: string): Promise<User> => {
     const user = await userRepository.findById(userId);
     if (!user) throw createError("USER_NOT_FOUND");
@@ -35,6 +35,6 @@ export const createUserService = (userRepository: UserRepository) => {
   };
 
   return { getUser, updateUser, deleteUser };
-};
+}
 
 export type UserServiceType = ReturnType<typeof createUserService>;

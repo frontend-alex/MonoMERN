@@ -4,3 +4,5 @@
 
 # Docker
 docker/.env.docker
+.opencode
+/graphify-out

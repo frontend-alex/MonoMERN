@@ -2,7 +2,7 @@ import { config } from "shared/config/config";
 import { AccountProviders } from "shared/types/user";
 
 import { IUser, User } from "./user.model";
-import { UserRepository } from "./user-repository.interface";
+import { UserRepository } from "./user.repository.port";
 
 function filterAllowedUpdates<T extends Record<string, any>>(
   updates: T,
@@ -100,5 +100,3 @@ export const userRepository: UserRepository = {
   createUser,
   createOAuthUser,
 };
-
-export const UserRepo = userRepository;

@@ -1,9 +1,9 @@
 import { OtpType } from "shared/types/otp";
 import { config } from "shared/config/config";
 
-import { createError } from "@/shared/errors/create-error";
-import { EmailService } from "../interfaces/email-service.interface";
-import { OtpRepository } from "./otp-repository.interface";
+import { createError } from "@/shared/errors/error";
+import { EmailService } from "@/ports/email.port";
+import { OtpRepository } from "./otp.repository.port";
 
 type OtpServiceDeps = {
   otpRepository: OtpRepository;
@@ -11,15 +11,17 @@ type OtpServiceDeps = {
   getEmailTemplate: (templateName: string) => string;
 };
 
-export const createOtpService = ({
+export function createOtpService({
   otpRepository,
   emailService,
   getEmailTemplate,
-}: OtpServiceDeps) => {
+}: OtpServiceDeps) {
+
   const sendOtp = async (
     userId: string,
     email: string,
     type: OtpType = OtpType.EmailVerification,
+    
   ) => {
     try {
       const otp = await otpRepository.createOtp(userId, type, 5);
@@ -73,6 +75,6 @@ export const createOtpService = ({
   };
 
   return { sendOtp, verifyOtp, resendOtp };
-};
+}
 
 export type OtpServiceType = ReturnType<typeof createOtpService>;

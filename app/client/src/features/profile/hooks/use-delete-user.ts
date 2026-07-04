@@ -2,7 +2,7 @@ import { toast } from "sonner";
 import { API } from "@/config/config";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 
-export const useDeleteUser = () => {
+export function useDeleteUser() {
   const { mutateAsync: deleteUser } = useApiMutation(
     "DELETE",
     API.USER.DELETE_ME,
@@ -16,4 +16,4 @@ export const useDeleteUser = () => {
   return {
     deleteUser,
   };
-};
+}

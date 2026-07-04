@@ -35,3 +35,5 @@ export function createUserController(userService: UserServiceType) {
     },
   };
 }
+
+export type UserController = ReturnType<typeof createUserController>;

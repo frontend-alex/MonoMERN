@@ -1,9 +1,9 @@
 import jwt, { Secret } from "jsonwebtoken";
 
 import { env } from "@/config/env";
-import { createError } from "@/shared/errors/create-error";
+import { createError } from "@/shared/errors/error";
 import { TokenPayload } from "@/modules/auth/auth.types";
-import { TokenService } from "@/modules/auth/interfaces/token-service.interface";
+import { TokenService } from "@/ports/token.port";
 
 export const jwtTokenService: TokenService = {
   generateAccessToken(payload: TokenPayload): string {

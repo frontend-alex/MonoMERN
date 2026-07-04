@@ -1,8 +1,8 @@
 import nodemailer from "nodemailer";
 
 import { env } from "@/config/env";
-import { createError } from "@/shared/errors/create-error";
-import { EmailService } from "@/modules/auth/interfaces/email-service.interface";
+import { createError } from "@/shared/errors/error";
+import { EmailService } from "@/ports/email.port";
 
 const transporter = nodemailer.createTransport({
   service: env.OTP_EMAIL_SERVICE,

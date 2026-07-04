@@ -6,10 +6,10 @@ import mongoSanitize from "mongo-sanitize";
 
 import { Application } from "express";
 
-export const configureSecurity = (
+export function configureSecurity(
   app: Application,
   env: typeof import("@/config/env").env,
-) => {
+) {
   app.use(
     helmet({
       contentSecurityPolicy: {
@@ -56,7 +56,7 @@ export const configureSecurity = (
     req.params = sanitize(req.params);
     next();
   });
-};
+}
 
 function sanitize(input: any): any {
   if (input == null || typeof input !== "object") return input;

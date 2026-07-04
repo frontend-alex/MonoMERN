@@ -21,7 +21,7 @@ const getRemainingCooldown = (lastSentAt: number, duration: number) => {
   return Math.max(duration - secondsPassed, 0);
 };
 
-export const useOtp = () => {
+export function useOtp() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email")?.trim() ?? "";
@@ -110,4 +110,4 @@ export const useOtp = () => {
     handleSubmit,
     resendOtp,
   };
-};
+}

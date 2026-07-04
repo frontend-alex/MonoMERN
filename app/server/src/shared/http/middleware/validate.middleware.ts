@@ -2,13 +2,12 @@ import z from "zod";
 import type { ZodSchema } from "zod";
 import type { Request, Response, NextFunction } from "express";
 
-export const validate =
-  (
-    schema: ZodSchema,
-    target: "body" | "query" | "params" = "body",
-    wrapKey?: string,
-  ) =>
-  (req: Request, res: Response, next: NextFunction) => {
+export function validate(
+  schema: ZodSchema,
+  target: "body" | "query" | "params" = "body",
+  wrapKey?: string,
+) {
+  return (req: Request, res: Response, next: NextFunction) => {
     let schemaToUse: ZodSchema;
 
     if (wrapKey && !(schema instanceof z.ZodObject)) {
@@ -33,3 +32,4 @@ export const validate =
     req[target] = result.data;
     next();
   };
+}

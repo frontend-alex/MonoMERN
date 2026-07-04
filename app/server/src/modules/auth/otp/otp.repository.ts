@@ -3,7 +3,7 @@ import { OtpType } from "shared/types/otp";
 
 import { generateOTP } from "@/shared/utils/generate-otp";
 import { Otp } from "./otp.model";
-import { OtpRepository } from "./otp-repository.interface";
+import { OtpRepository } from "./otp.repository.port";
 
 const createOtp = async (
   userId: string,
@@ -58,5 +58,3 @@ export const otpRepository: OtpRepository = {
   invalidateUserOtps,
   cleanupExpiredOtps,
 };
-
-export const OtpRepo = otpRepository;

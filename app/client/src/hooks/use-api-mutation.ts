@@ -34,11 +34,11 @@ const fetcher = async <T>(endpoint: string): Promise<ApiSuccessResponse<T>> => {
 };
 
 /* Query Hook */
-export const useApiQuery = <T, R = ApiSuccessResponse<T>>(
+export function useApiQuery<T, R = ApiSuccessResponse<T>>(
   queryKey: QueryKey,
   endpoint: string,
-  options?: QueryOptions<T, R>
-) => {
+  options?: QueryOptions<T, R>,
+) {
   return useQuery<ApiSuccessResponse<T>, ApiError, R>({
     queryKey,
     queryFn: () => fetcher<T>(endpoint),
@@ -49,14 +49,14 @@ export const useApiQuery = <T, R = ApiSuccessResponse<T>>(
     retry: 1,
     refetchInterval: options?.refetchInterval,
   });
-};
+}
 
 /* Mutation Hook */
-export const useApiMutation = <T, U = unknown, R = ApiSuccessResponse<T>>(
+export function useApiMutation<T, U = unknown, R = ApiSuccessResponse<T>>(
   method: "POST" | "PUT" | "PATCH" | "DELETE",
   endpoint: string | ((data: U) => string),
-  options?: MutationOptions<T, U, R>
-) => {
+  options?: MutationOptions<T, U, R>,
+) {
   const queryClient = useQueryClient();
 
   return useMutation<ApiSuccessResponse<T>, ApiError, U, R>({
@@ -94,4 +94,4 @@ export const useApiMutation = <T, U = unknown, R = ApiSuccessResponse<T>>(
       options?.onError?.(error, variables);
     },
   });
-};
+}

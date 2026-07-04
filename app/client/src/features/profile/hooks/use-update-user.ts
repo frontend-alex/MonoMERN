@@ -2,7 +2,7 @@ import { toast } from "sonner";
 import { API } from "@/config/config";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 
-export const useUpdateUser = () => {
+export function useUpdateUser() {
   const { mutateAsync: update, isPending } = useApiMutation(
     "PUT",
     API.USER.UPDATE_ME,
@@ -17,4 +17,4 @@ export const useUpdateUser = () => {
     update,
     isPending,
   };
-};
+}

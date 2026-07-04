@@ -1,20 +1,15 @@
 import { Router } from "express";
 import type { Router as ExpressRouter } from "express";
 
-import { validate } from "@/shared/http/validate.middleware";
-import { authMiddleware } from "@/shared/http/auth.middleware";
+import { validate } from "@/shared/http/middleware/validate.middleware";
+import { requireAuth } from "@/shared/http/middleware/auth.middleware";
 import { updateUserSchema } from "shared/schemas/user/user.schema";
-import { createUserController } from "./user.controller";
-import { createUserService } from "./user.service";
-import { userRepository } from "./user.repository";
+import { UserController } from "./user.controller";
 
-export function createUserRoutes(): ExpressRouter {
+export function createUserRoutes(controller: UserController): ExpressRouter {
   const router: ReturnType<typeof Router> = Router();
 
-  const userService = createUserService(userRepository);
-  const controller = createUserController(userService);
-
-  router.use(authMiddleware);
+  router.use(requireAuth);
 
   router.get("/me", controller.getUser);
   router.put("/update", validate(updateUserSchema), controller.updateUser);

@@ -191,3 +191,5 @@ export function createAuthController(authService: AuthServiceType) {
     },
   };
 }
+
+export type AuthController = ReturnType<typeof createAuthController>;

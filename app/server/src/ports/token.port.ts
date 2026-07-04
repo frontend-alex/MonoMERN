@@ -1,4 +1,4 @@
-import { TokenPayload } from "../auth.types";
+import { TokenPayload } from "@/modules/auth/auth.types";
 
 export interface TokenService {
   generateAccessToken(payload: TokenPayload): string;

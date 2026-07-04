@@ -8,7 +8,7 @@ import {
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-export const useUpdateUserPass = () => {
+export function useUpdateUserPass() {
   const updatePasswordsForm = useForm({
     resolver: zodResolver(updatePasswordSchema),
     defaultValues: {
@@ -42,4 +42,4 @@ export const useUpdateUserPass = () => {
     isPending,
     watch,
   };
-};
+}

@@ -4,7 +4,7 @@ import session from "express-session";
 import passport from "passport";
 
 import { env } from "@/config/env";
-import { configureSecurity } from "@/shared/security/configure-security";
+import { configureSecurity } from "@/shared/security/security";
 
 export function registerMiddlewares(app: Application) {
   app.use(express.json({ limit: env.REQUEST_BODY_LIMIT }));

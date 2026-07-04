@@ -4,12 +4,12 @@ import { env } from "@/config/env";
 import { OtpType } from "shared/types/otp";
 import { config } from "shared/config/config";
 import { AccountProviders, User } from "shared/types/user";
-import { createError } from "@/shared/errors/create-error";
-import { UserRepository } from "@/modules/users/user-repository.interface";
+import { createError } from "@/shared/errors/error";
+import { UserRepository } from "@/modules/users/user.repository.port";
 import { UserMapper } from "@/modules/users/user.mapper";
 import { OtpServiceType } from "./otp/otp.service";
-import { TokenService } from "./interfaces/token-service.interface";
-import { EmailService } from "./interfaces/email-service.interface";
+import { EmailService } from "@/ports/email.port";
+import { TokenService } from "@/ports/token.port";
 import { AuthenticatedUser } from "./auth.types";
 
 type AuthServiceDeps = {
@@ -20,13 +20,13 @@ type AuthServiceDeps = {
   getEmailTemplate: (templateName: string) => string;
 };
 
-export const createAuthService = ({
+export function createAuthService({
   userRepository,
   otpService,
   tokenService,
   emailService,
   getEmailTemplate,
-}: AuthServiceDeps) => {
+}: AuthServiceDeps) {
   const login = async (
     email: string,
     password: string,
@@ -220,6 +220,6 @@ export const createAuthService = ({
     sendPasswordEmail,
     handleAuthCallback,
   };
-};
+}
 
 export type AuthServiceType = ReturnType<typeof createAuthService>;

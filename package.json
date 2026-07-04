@@ -19,6 +19,7 @@
     "start": "pnpm --filter server run start",
     "verify": "pnpm lint && pnpm build && pnpm test:only",
     "cp:env": "node scripts/setup-env.js",
+
     "prepare": "husky install"
   },
   "devDependencies": {

@@ -1,10 +1,11 @@
-import { userRepository } from "@/modules/users/user.repository";
-import { jwtTokenService } from "@/infrastructure/token/jwt-token.service";
 import { nodemailerEmailService } from "@/infrastructure/email/nodemailer-email.service";
 import { getEmailTemplate } from "@/infrastructure/email/template-renderer";
+import { jwtTokenService } from "@/infrastructure/token/jwt-token.service";
+import { userRepository } from "@/modules/users/user.repository";
+import { createAuthController } from "./auth.controller";
 import { createAuthService } from "./auth.service";
-import { createOtpService } from "./otp/otp.service";
 import { otpRepository } from "./otp/otp.repository";
+import { createOtpService } from "./otp/otp.service";
 
 export function createAuthModule() {
   const otpService = createOtpService({
@@ -21,8 +22,9 @@ export function createAuthModule() {
     getEmailTemplate,
   });
 
+  const authController = createAuthController(authService);
+
   return {
-    authService,
-    otpService,
+    authController,
   };
 }

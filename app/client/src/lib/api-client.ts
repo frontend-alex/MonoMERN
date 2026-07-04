@@ -39,14 +39,14 @@ const emitAuthEvent = (event: AuthEventType, detail?: unknown) => {
   window.dispatchEvent(new CustomEvent(event, { detail }));
 };
 
-export const onAuthEvent = (
+export function onAuthEvent(
   event: AuthEventType,
-  callback: (e: CustomEvent) => void
-) => {
+  callback: (e: CustomEvent) => void,
+) {
   const handler = callback as EventListener;
   window.addEventListener(event, handler);
   return () => window.removeEventListener(event, handler);
-};
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Token Refresh Queue - Handles concurrent requests during token refresh
@@ -245,24 +245,24 @@ api.interceptors.response.use(
  * api.get('/endpoint', { signal });
  * // Later: abort();
  */
-export const createAbortSignal = (): [AbortSignal, () => void] => {
+export function createAbortSignal(): [AbortSignal, () => void] {
   const controller = new AbortController();
   return [controller.signal, () => controller.abort()];
-};
+}
 
 /**
  * Type guard to check if error is an API error
  */
-export const isApiError = (
-  error: unknown
-): error is AxiosError<ApiErrorResponse> => {
+export function isApiError(
+  error: unknown,
+): error is AxiosError<ApiErrorResponse> {
   return axios.isAxiosError(error);
-};
+}
 
 /**
  * Extracts user-friendly message from API error
  */
-export const getErrorMessage = (error: unknown): string => {
+export function getErrorMessage(error: unknown): string {
   if (isApiError(error)) {
     return (
       error.response?.data?.userMessage ??
@@ -271,6 +271,6 @@ export const getErrorMessage = (error: unknown): string => {
     );
   }
   return error instanceof Error ? error.message : "An unexpected error occurred";
-};
+}
 
 export default api;

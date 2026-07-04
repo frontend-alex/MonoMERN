@@ -18,7 +18,7 @@ import {
   type RegistrationSchemaType,
 } from "shared/schemas/auth/auth.schema";
 
-export const useRegister = () => {
+export function useRegister() {
   const navigate = useNavigate();
 
   const form = useForm<RegistrationSchemaType>({
@@ -66,4 +66,4 @@ export const useRegister = () => {
   const handleRegister = (data: RegistrationSchemaType) => register(data);
 
   return { register, isPending, form, handleRegister, providerRes };
-};
+}

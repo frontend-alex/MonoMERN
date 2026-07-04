@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { createError } from "@/shared/errors/create-error";
+import { createError } from "@/shared/errors/error";
 
 export function getEmailTemplate(templateName: string): string {
   const templatePath = path.resolve(

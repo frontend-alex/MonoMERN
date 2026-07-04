@@ -29,10 +29,10 @@ export const ROUTE_HELPERS = {
   },
 } as const;
 
-export const getCurrentRoute = (pathname: string) => {
+export function getCurrentRoute(pathname: string) {
   const match = pathname.match(BASE_PATHS.APP + "/([^/]+)");
   return match ? match[1] : "";
-};
+}
 
 export const ROUTES = {
   PUBLIC: PUBLIC_ROUTES,

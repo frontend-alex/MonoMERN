@@ -1,10 +1,10 @@
 import { AppError, AppErrorParams } from "./app-error";
 import { ERROR_MESSAGES } from "./error-messages";
 
-export const createError = (
+export function createError(
   type: keyof typeof ERROR_MESSAGES,
   overrides?: Partial<Pick<AppErrorParams, "userMessage" | "extra">>,
-): AppError => {
+): AppError {
   const fallback = {
     message: "Unknown server error",
     statusCode: 500,
@@ -20,4 +20,4 @@ export const createError = (
     userMessage: overrides?.userMessage ?? base.userMessage,
     extra: overrides?.extra,
   });
-};
+}
