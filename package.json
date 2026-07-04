@@ -19,7 +19,6 @@
     "start": "pnpm --filter server run start",
     "verify": "pnpm lint && pnpm build && pnpm test:only",
     "cp:env": "node scripts/setup-env.js",
-
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -32,14 +31,12 @@
     "@types/supertest": "^6.0.3",
     "@vitejs/plugin-react": "^4.7.0",
     "@vitest/ui": "^3.2.4",
-    "concurrently": "^9.2.0",
     "happy-dom": "^20.0.1",
     "husky": "^8.0.0",
     "jsdom": "^27.0.0",
     "jsonwebtoken": "^9.0.2",
     "lint-staged": "^13.0.0",
     "lucide-react": "^0.525.0",
-    "nodemon": "^3.1.10",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.7.1",

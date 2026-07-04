@@ -4,7 +4,7 @@
 FROM node:20-alpine AS build
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@10.26.0 --activate
+RUN corepack enable && corepack prepare pnpm@11.9.0 --activate
 
 WORKDIR /app
 
@@ -30,20 +30,15 @@ COPY app/server/ app/server/
 RUN rm -rf packages/shared/build packages/shared/tsconfig.tsbuildinfo \
            app/server/build app/server/tsconfig.tsbuildinfo
 
-# Build shared + server via project references
-RUN cd app/server && pnpm exec tsc -b
-
-# Copy email templates to build output
-RUN if [ -d "app/server/src/infrastructure/email/templates" ]; then \
-      cp -r app/server/src/infrastructure/email/templates app/server/build/infrastructure/email/templates; \
-    fi
+# Build shared package and bundle the server with tsup
+RUN pnpm --filter shared build && pnpm --filter server build
 
 # ============================================
 # Stage 2: Production Runtime
 # ============================================
 FROM node:20-alpine AS runtime
 
-RUN corepack enable && corepack prepare pnpm@10.26.0 --activate
+RUN corepack enable && corepack prepare pnpm@11.9.0 --activate
 
 WORKDIR /app
 

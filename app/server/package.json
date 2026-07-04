@@ -3,14 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "build/index.js",
-  "_moduleAliases": {
-    "@": "build"
-  },
   "scripts": {
-    "build": "tsc",
-    "watch": "concurrently \"tsc --watch\"",
+    "clean": "node -e \"require('node:fs').rmSync('build',{recursive:true,force:true})\"",
+    "build": "pnpm run clean && pnpm run typecheck && tsup src/index.ts --format cjs --platform node --target node20 --out-dir build --sourcemap && pnpm run copy-templates",
+    "typecheck": "tsc --noEmit",
     "start": "node build/index.js",
-    "dev": "concurrently \"pnpm run watch\" \"pnpm run copy-templates\" \"nodemon\"",
+    "dev": "tsx watch --clear-screen=false src/index.ts",
     "copy-templates": "copyfiles -u 4 src/infrastructure/email/templates/**/* build/infrastructure/email/templates"
   },
   "keywords": [],
@@ -18,8 +16,8 @@
   "license": "ISC",
   "packageManager": "pnpm@11.9.0+sha512.bd682d5d03fe525ef7c9fd6780c6884d1e756ac4c9c9fe00c538782824310dcf90e3ddc4f53835f06dfaebd5085e41855e0bcbb3b60de2ac5bbab89e5036f03b",
   "dependencies": {
-    "shared": "workspace:*",
     "bcrypt": "^6.0.0",
+    "chalk": "^4.1.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.0.1",
@@ -30,7 +28,7 @@
     "helmet": "^8.1.0",
     "hpp": "^0.2.3",
     "jsonwebtoken": "^9.0.2",
-    "module-alias": "^2.2.3",
+    "logform": "^2.7.0",
     "mongo-sanitize": "^1.1.0",
     "mongoose": "^8.16.1",
     "nodemailer": "^7.0.5",
@@ -44,15 +42,13 @@
     "passport-oauth2": "^1.8.0",
     "passport-spotify": "^2.0.0",
     "passport-twitter": "^1.0.4",
+    "shared": "workspace:*",
     "uuid": "^11.1.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0",
-    "zod": "^3.25.76",
-    "chalk": "^4.1.2",
-    "logform": "^2.7.0"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@jest/globals": "^30.0.4",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
@@ -60,7 +56,6 @@
     "@types/express": "^5.0.3",
     "@types/express-session": "^1.18.2",
     "@types/hpp": "^0.2.6",
-    "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mongo-sanitize": "^1.0.3",
     "@types/node": "^24.0.7",
@@ -75,18 +70,10 @@
     "@types/passport-spotify": "^2.0.4",
     "@types/passport-twitter": "^1.0.40",
     "@types/supertest": "^6.0.3",
-
-    "concurrently": "^9.2.0",
     "copyfiles": "^2.4.1",
-    "cross-env": "^7.0.3",
-    "jest": "^30.0.4",
-
-    "nodemon": "^3.1.10",
     "supertest": "^7.1.3",
-    "ts-jest": "^29.4.0",
-    "ts-node": "^10.9.2",
-    "tsc-alias": "^1.8.16",
-    "typescript": "^5.8.3",
-    "winston-format": "^1.0.1"
+    "tsup": "^8.5.1",
+    "tsx": "^4.23.0",
+    "typescript": "^5.8.3"
   }
 }

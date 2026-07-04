@@ -1,4 +1,3 @@
-import "module-alias/register";
 import "@/config/passport";
 
 import express, { Application } from "express";

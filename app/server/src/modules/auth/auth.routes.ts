@@ -24,44 +24,19 @@ export function createAuthRoutes(
   const router: ReturnType<typeof Router> = Router();
 
   router.post("/login", validate(loginSchema), authController.login);
-
-  router.post(
-    "/register",
-    validate(registrationSchema),
-    authController.register,
-  );
+  router.post("/register", validate(registrationSchema), authController.register);
+  router.post("/logout", requireAuth, authController.logout);
 
   router.post("/refresh", authController.refresh);
 
-  router.post(
-    "/send-otp",
-    validate(emailSchema, "body", "email"),
-    authController.sendOtp,
-  );
+  router.post("/send-otp", validate(emailSchema, "body", "email"), authController.sendOtp);
   router.put("/validate-otp", validate(otpSchema), authController.validateOtp);
 
-  router.put(
-    "/update-password",
-    requireResetToken,
-    validate(resetPasswordSchema),
-    authController.resetPassword,
-  );
-
-  router.post(
-    "/reset-password",
-    validate(emailSchema, "body", "email"),
-    authController.sendPasswordEmail,
-  );
+  router.put("/update-password", requireResetToken, validate(resetPasswordSchema), authController.resetPassword);
+  router.post("/reset-password", validate(emailSchema, "body", "email"), authController.sendPasswordEmail);
+  router.put("/change-password", requireAuth, validate(updatePasswordSchema), authController.updatePassword);
 
   router.get("/providers", authController.providers);
-
-  router.post("/logout", requireAuth, authController.logout);
-  router.put(
-    "/change-password",
-    requireAuth,
-    validate(updatePasswordSchema),
-    authController.updatePassword,
-  );
 
   strategies.forEach(({ name }) => {
     router.get(
