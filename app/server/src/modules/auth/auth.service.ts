@@ -1,31 +1,18 @@
-import bcrypt from "bcrypt";
-
-import { env } from "@/config/env";
-import { OtpType } from "shared/types/otp";
-import { config } from "shared/config/config";
 import { AccountProviders, User } from "shared/types/user";
 import { createError } from "@/shared/errors/error";
 import { UserRepository } from "@/modules/users/user.repository.port";
 import { UserMapper } from "@/modules/users/user.mapper";
-import { OtpServiceType } from "./otp/otp.service";
-import { EmailService } from "@/ports/email.port";
 import { TokenService } from "@/ports/token.port";
 import { AuthenticatedUser } from "./auth.types";
 
 type AuthServiceDeps = {
   userRepository: UserRepository;
-  otpService: OtpServiceType;
   tokenService: TokenService;
-  emailService: EmailService;
-  getEmailTemplate: (templateName: string) => string;
 };
 
 export function createAuthService({
   userRepository,
-  otpService,
   tokenService,
-  emailService,
-  getEmailTemplate,
 }: AuthServiceDeps) {
   const login = async (
     email: string,
@@ -98,126 +85,9 @@ export function createAuthService({
     return { accessToken: newAccessToken, refreshToken: newRefreshToken };
   };
 
-  const register = async (
-    username: string,
-    email: string,
-    password: string,
-  ): Promise<User> => {
-    const existingUserEmail = await userRepository.findByEmail(email);
-    if (existingUserEmail) {
-      if (!existingUserEmail.emailVerified) {
-        throw createError("EMAIL_ALREADY_TAKEN", {
-          extra: { otpRedirect: true, email },
-        });
-      }
-
-      throw createError("EMAIL_ALREADY_TAKEN");
-    }
-
-    const existingUserUsername = await userRepository.findByUsername(username);
-    if (existingUserUsername) throw createError("USERNAME_ALREADY_TAKEN");
-
-    const user = await userRepository.createUser(username, email, password);
-
-    return UserMapper.toUserDTO(user);
-  };
-
-  const sendOtp = async (email: string): Promise<void> => {
-    const user = await userRepository.findByEmail(email);
-
-    if (!user) throw createError("USER_NOT_FOUND");
-    if (user.emailVerified) throw createError("EMAIL_ALREADY_VERIFIED");
-
-    return await otpService.sendOtp(user.id, email, OtpType.EmailVerification);
-  };
-
-  const validateOtp = async (email: string, otp: string): Promise<void> => {
-    const user = await userRepository.findByEmail(email);
-    if (!user) throw createError("USER_NOT_FOUND");
-
-    await otpService.verifyOtp(user.id, otp, OtpType.EmailVerification);
-    await userRepository.safeUpdate({ email }, { emailVerified: true });
-  };
-
-  const updatePassword = async (
-    userId: string,
-    currentPassword: string,
-    newPassword: string,
-  ): Promise<User> => {
-    const user = await userRepository.findById(userId);
-    if (!user) throw createError("USER_NOT_FOUND");
-
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!isMatch) throw createError("INVALID_CURRENT_PASSWORD");
-
-    if (currentPassword === newPassword) throw createError("SAME_PASSWORD");
-
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    const updatedUser = await userRepository.safeUpdate(
-      { id: user.id },
-      { password: hashedPassword },
-    );
-
-    return UserMapper.toUserDTO(updatedUser!);
-  };
-
-  const sendPasswordEmail = async (email: string) => {
-    const user = await userRepository.findByEmail(email);
-    if (!user) throw createError("USER_NOT_FOUND");
-
-    if (user.provider !== AccountProviders.Credentials) {
-      throw createError("ACCOUNT_ALREADY_CONNECTED_WITH_PROVIDER");
-    }
-
-    const token = tokenService.generateAccessToken({
-      id: user.id,
-      username: user.username,
-    });
-
-    const tokenExpiry = new Date(Date.now() + 60 * 60 * 1000);
-
-    await userRepository.safeUpdate(
-      { _id: user.id },
-      { tokenExpiry, resetToken: token },
-    );
-
-    const resetLink = `${env.CORS_ORIGINS}/reset-password`;
-    const emailTemplate = getEmailTemplate("reset-password");
-
-    const html = emailTemplate
-      .replace("{{RESET_LINK}}", resetLink)
-      .replace("{{APP_NAME}}", config.app.name)
-      .replace("{{YEAR}}", new Date().getFullYear().toString());
-
-    await emailService.sendEmail(email, "Reset Password Link", html);
-
-    return { token };
-  };
-
-  const resetPassword = async (userId: string, newPassword: string) => {
-    const user = await userRepository.findById(userId);
-    if (!user) throw createError("USER_NOT_FOUND");
-
-    if (newPassword === user.password) throw createError("SAME_PASSWORD");
-
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    await userRepository.safeUpdate(
-      { _id: user.id },
-      { password: hashedPassword, $unset: { resetToken: 1, tokenExpiry: 1 } },
-    );
-  };
-
   return {
     login,
-    sendOtp,
-    register,
-    validateOtp,
-    resetPassword,
-    updatePassword,
     refreshTokens,
-    sendPasswordEmail,
     handleAuthCallback,
   };
 }

@@ -10,8 +10,14 @@ import {
   REFRESH_TOKEN_COOKIE_OPTIONS,
   RESET_TOKEN_COOKIE_OPTIONS,
 } from "./auth.cookies";
+import { PasswordServiceType } from "./password.service";
+import { RegistrationServiceType } from "./register.service";
 
-export function createAuthController(authService: AuthServiceType) {
+export function createAuthController(
+  authService: AuthServiceType,
+  passwordService: PasswordServiceType,
+  registrationService: RegistrationServiceType,
+) {
   return {
     providers: (_req: Request, res: Response, next: NextFunction) => {
       try {
@@ -74,7 +80,7 @@ export function createAuthController(authService: AuthServiceType) {
       const { email, password, username } = req.body;
 
       try {
-        await authService.register(username, email, password);
+        await registrationService.register(username, email, password);
 
         sendSuccess(res, 201, "Registration successfully made", { email });
       } catch (err) {
@@ -82,16 +88,12 @@ export function createAuthController(authService: AuthServiceType) {
       }
     },
 
-    updatePassword: async (
-      req: Request,
-      res: Response,
-      next: NextFunction,
-    ) => {
+    updatePassword: async (req: Request, res: Response, next: NextFunction) => {
       const { password, newPassword } = req.body;
       const userId = req.user?.id!;
 
       try {
-        await authService.updatePassword(userId, password, newPassword);
+        await passwordService.updatePassword(userId, password, newPassword);
 
         sendSuccess(res, 201, "Password successfully updated");
       } catch (err) {
@@ -103,7 +105,7 @@ export function createAuthController(authService: AuthServiceType) {
       const { email } = req.body;
 
       try {
-        await authService.sendOtp(email);
+        await registrationService.sendOtp(email);
 
         sendSuccess(res, 201, `Otp was successfully sent to ${email}`);
       } catch (err) {
@@ -115,7 +117,7 @@ export function createAuthController(authService: AuthServiceType) {
       const { email, pin } = req.body;
 
       try {
-        await authService.validateOtp(email, pin);
+        await registrationService.validateOtp(email, pin);
 
         sendSuccess(res, 200, "Account successfully verfied");
       } catch (err) {
@@ -130,7 +132,7 @@ export function createAuthController(authService: AuthServiceType) {
     ) => {
       const { email } = req.body;
       try {
-        const { token } = await authService.sendPasswordEmail(email);
+        const { token } = await passwordService.sendPasswordEmail(email);
 
         res.cookie("reset_token", token, RESET_TOKEN_COOKIE_OPTIONS);
 
@@ -144,7 +146,7 @@ export function createAuthController(authService: AuthServiceType) {
       const userId = req.user?.id!;
       const { newPassword } = req.body;
       try {
-        await authService.resetPassword(userId, newPassword);
+        await passwordService.resetPassword(userId, newPassword);
 
         res.clearCookie("reset_token", RESET_TOKEN_COOKIE_OPTIONS);
 

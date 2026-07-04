@@ -36,7 +36,7 @@ const ResetPassword = () => {
     await updatePassword(data);
 
   return (
-    <div>
+    <>
       <div className="hidden lg:flex p-5 absolute">
         <AppLogo />
       </div>
@@ -45,7 +45,7 @@ const ResetPassword = () => {
         isPending={isPending}
         handleSubmit={handleUpdatePassword}
       />
-    </div>
+    </>
   );
 };
 

@@ -4,6 +4,7 @@ import { jwtTokenService } from "@/infrastructure/token/jwt-token.service";
 import { TokenService } from "@/ports/token.port";
 import { createError } from "@/shared/errors/error";
 
+
 export function createTokenMiddleware(
   tokenService: TokenService,
   cookieNames: string[],

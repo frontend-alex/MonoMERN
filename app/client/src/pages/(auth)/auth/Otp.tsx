@@ -7,7 +7,7 @@ const Otp = () => {
   const { form, cooldown, isOtpPending, isOtpVerifying, handleSubmit, resendOtp } = useOtp();
 
   return (
-    <div>
+    <>
       <div className="hidden lg:flex p-5 absolute">
         <AppLogo />
       </div>
@@ -19,7 +19,7 @@ const Otp = () => {
         resendOtp={resendOtp}
         handleSubmit={handleSubmit}
       />
-    </div>
+    </>
   );
 };
 

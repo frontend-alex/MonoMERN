@@ -28,7 +28,7 @@ const ForgotPassword = () => {
     await forgotPassword(data);
 
   return (
-    <div>
+    <>
       <div className="hidden lg:flex p-5 absolute">
         <AppLogo />
       </div>
@@ -37,7 +37,7 @@ const ForgotPassword = () => {
         isPending={isPending}
         handleSubmit={handleForgotPassword}
       />
-    </div>
+    </>
   );
 };
 

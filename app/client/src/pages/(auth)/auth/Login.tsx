@@ -11,7 +11,7 @@ const Login = () => {
   const { providers } = useAuthProviders();
 
   return (
-    <div>
+    <>
       <div className="hidden lg:flex p-5 absolute">
         <AppLogo />
       </div>
@@ -21,7 +21,7 @@ const Login = () => {
         isPending={isPending}
         providers={providers}
       />
-    </div>
+    </>
   );
 };
 

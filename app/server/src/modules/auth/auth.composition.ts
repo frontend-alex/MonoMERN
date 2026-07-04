@@ -6,6 +6,8 @@ import { createAuthController } from "./auth.controller";
 import { createAuthService } from "./auth.service";
 import { otpRepository } from "./otp/otp.repository";
 import { createOtpService } from "./otp/otp.service";
+import { createPasswordService } from "./password.service";
+import { createRegistrationService } from "./register.service";
 
 export function createAuthModule() {
   const otpService = createOtpService({
@@ -14,15 +16,23 @@ export function createAuthModule() {
     getEmailTemplate,
   });
 
-  const authService = createAuthService({
+  const registrationService = createRegistrationService({
+    otpService
+  });
+
+  const passwordService = createPasswordService({
     userRepository,
-    otpService,
-    tokenService: jwtTokenService,
     emailService: nodemailerEmailService,
+    tokenService: jwtTokenService,
     getEmailTemplate,
   });
 
-  const authController = createAuthController(authService);
+  const authService = createAuthService({
+    userRepository,
+    tokenService: jwtTokenService,
+  });
+
+  const authController = createAuthController(authService, passwordService, registrationService);
 
   return {
     authController,

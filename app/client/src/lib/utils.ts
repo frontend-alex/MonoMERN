@@ -17,10 +17,7 @@ export function getUserInitials(username: string) {
     .slice(0, 2);
 }
 
-/**
- * Custom hook factory for creating forms with Zod validation
- * Must be called at the top level of a React component
- */
+
 export function useFormWithSchema<T extends z.ZodTypeAny>(
   schema: T,
   defaultValues: z.infer<T>,

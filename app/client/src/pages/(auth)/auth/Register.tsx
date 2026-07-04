@@ -7,7 +7,7 @@ const Register = () => {
   const { form, handleRegister, isPending, providerRes } = useRegister();
 
   return (
-    <div>
+    <>
       <div className="hidden lg:flex p-5 absolute">
         <AppLogo />
       </div>
@@ -17,7 +17,7 @@ const Register = () => {
         isPending={isPending}
         providers={providerRes?.data?.publicProviders ?? []}
       />
-    </div>
+    </>
   );
 };
 
