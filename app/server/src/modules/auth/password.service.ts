@@ -58,7 +58,7 @@ getEmailTemplate,
       { tokenExpiry, resetToken: token },
     );
 
-    const resetLink = `${env.CORS_ORIGINS}/reset-password`;
+    const resetLink = `${env.CORS_ORIGINS}/auth/reset-password`;
     const emailTemplate = getEmailTemplate("reset-password");
 
     const html = emailTemplate

@@ -6,10 +6,12 @@ export const API = {
       LOGIN: "/auth/login",
       REGISTER: "/auth/register",
       FORGOT_PASSWORD: "/auth/reset-password",
+
       SEND_OTP: "/auth/send-otp",
       VALIDATE_OTP: "/auth/validate-otp",
       PROVIDERS: "/auth/providers",
       REFRESH: "/auth/refresh",
+      
     },
     PRIVATE: {
       LOGOUT: "/auth/logout",

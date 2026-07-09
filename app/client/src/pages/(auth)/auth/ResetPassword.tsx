@@ -5,15 +5,19 @@ import { useApiMutation } from "@/hooks/use-api-mutation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  updatePasswordSchema,
-  type updatePasswordSchemaType,
+  resetPasswordSchema,
+  type resetPasswordSchemaType,
 } from "shared/schemas/auth/auth.schema";
 import { UpdatePasswordForm } from "@/features/auth/forms/password/reset-password-02";
 import { API } from "@/config/config";
+import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
-  const updatePasswordForm = useForm({
-    resolver: zodResolver(updatePasswordSchema),
+
+  const navigate = useNavigate();
+
+  const updatePasswordForm = useForm<resetPasswordSchemaType>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       newPassword: "",
       confirmNewPassword: "",
@@ -27,12 +31,13 @@ const ResetPassword = () => {
       onSuccess: (data) => {
         updatePasswordForm.reset();
         toast.success(data.message);
+        navigate("/auth/login");
       },
       onError: (err) => toast.error(err.response?.data.message),
     }
   );
 
-  const handleUpdatePassword = async (data: updatePasswordSchemaType) =>
+  const handleUpdatePassword = async (data: resetPasswordSchemaType) =>
     await updatePassword(data);
 
   return (

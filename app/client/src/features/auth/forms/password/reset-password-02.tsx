@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { LoaderCircle } from "lucide-react";
-import type { UpdatePasswordFormProps } from "@/features/auth/types/form-types";
+import type { ResetPasswordFormProps } from "@/features/auth/types/form-types";
 
 const PasswordStrengthChecks = lazy(() => import("@/components/shared/auth/password-checker"))
 
@@ -18,7 +18,7 @@ export function UpdatePasswordForm({
   form,
   handleSubmit,
   isPending,
-}: UpdatePasswordFormProps) {
+}: ResetPasswordFormProps) {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
