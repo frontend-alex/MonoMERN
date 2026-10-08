@@ -1,3 +1,7 @@
+For a code-grounded architecture guide, pinned-toolchain setup, current auth endpoints, and verification commands, read the [MonoMERN project guide](docs/PROJECT_GUIDE.md). The existing overview below is retained; use the guide's route table when endpoint names differ.
+
+---
+
 # MonoMERN
 
 A production-ready MERN stack boilerplate — MongoDB, Express, React, Node.js — with TypeScript, authentication, and Docker deployment out of the box.
